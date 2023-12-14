@@ -13,53 +13,53 @@ function obtenerNumeros() {
     return res;
 }
 
-function obtenerPromedio(a) {
-    let sumaTotal = a[0];
-    for (let i = 1; i < a.length; i++) {
-        sumaTotal += a[i];
+function obtenerPromedio(numeros) {
+    let sumaTotal = numeros[0];
+    for (let i = 1; i < numeros.length; i++) {
+        sumaTotal += numeros[i];
     }
-    return sumaTotal / a.length;
+    return sumaTotal / numeros.length;
 }
 
-function obtenerMinimo(a) {
-    let min = a[0];
-    for (let i = 1; i < a.length; i++) {
-        if (min > a[i]) {
-            min = a[i];
+function obtenerMinimo(numeros) {
+    let min = numeros[0];
+    for (let i = 1; i < numeros.length; i++) {
+        if (min > numeros[i]) {
+            min = numeros[i];
         }
     }
     return min;
 }
 
-function obtenerMaximo(a) {
-    let max = a[0];
-    for (let i = 1; i < a.length; i++) {
-        if (max < a[i]) {
-            max = a[i];
+function obtenerMaximo(numeros) {
+    let max = numeros[0];
+    for (let i = 1; i < numeros.length; i++) {
+        if (max < numeros[i]) {
+            max = numeros[i];
         }
     }
     return max;
 }
 
-function obtenerMasFrecuente(a) {
-    let numeroMasFrecuente = a[0];
-    let cantidadMasFrecuente = obtenerCantRepeticiones(numeroMasFrecuente, a);
-    for (let i = 1; i < a.length; i++) {
-        if (numeroMasFrecuente !== a[i]) {
-            let cantidadNueva = obtenerCantRepeticiones(a[i], a);
+function obtenerMasFrecuente(numeros) {
+    let numeroMasFrecuente = numeros[0];
+    let cantidadMasFrecuente = obtenerCantRepeticiones(numeroMasFrecuente, numeros);
+    for (let i = 1; i < numeros.length; i++) {
+        if (numeroMasFrecuente !== numeros[i]) {
+            let cantidadNueva = obtenerCantRepeticiones(numeros[i], numeros);
             if (cantidadNueva > cantidadMasFrecuente) {
                 cantidadMasFrecuente = cantidadNueva;
-                numeroMasFrecuente = a[i];
+                numeroMasFrecuente = numeros[i];
             }
         }
     }
     return numeroMasFrecuente;
 }
 
-function obtenerCantRepeticiones(n, a) {
+function obtenerCantRepeticiones(n, numeros) {
     let contador = 0;
-    for (let i = 0; i < a.length; i++) {
-        if (n === a[i]) {
+    for (let i = 0; i < numeros.length; i++) {
+        if (n === numeros[i]) {
             contador++;
         }
     }
