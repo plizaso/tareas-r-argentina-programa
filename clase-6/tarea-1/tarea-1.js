@@ -80,3 +80,19 @@ function obtenerMaximo(numeros) {
     return max;
 }
 
+document.querySelector('#btn-reiniciar').onclick = function(){
+    document.querySelector('#mayor-edad').textContent = '';
+    document.querySelector('#menor-edad').textContent = '';
+    document.querySelector('#edad-promedio').textContent = '';
+    let $integrantes = document.querySelectorAll('#integrantes label');
+    for(let i=0; i<$integrantes.length; i++){
+        document.querySelector('#integrantes').removeChild($integrantes[i]);
+    }
+    document.querySelector('#integrantes').setAttribute('style', 'display: none');
+    document.querySelector('#resultados').setAttribute('style', 'display: none');
+    document.querySelector('#btn-continuar').disabled = false;
+    
+    return false;
+}
+
+
