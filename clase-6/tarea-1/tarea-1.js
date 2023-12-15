@@ -91,6 +91,7 @@ document.querySelector('#btn-reiniciar').onclick = function(){
     document.querySelector('#integrantes').setAttribute('style', 'display: none');
     document.querySelector('#resultados').setAttribute('style', 'display: none');
     document.querySelector('#btn-continuar').disabled = false;
+    document.querySelector('#cantidad-integrantes').value = '';
     
     return false;
 }
