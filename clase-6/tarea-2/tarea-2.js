@@ -15,7 +15,7 @@ function crearSalario() {
     let $input = document.createElement('input');
     $input.setAttribute('id', idSalario);
     $input.setAttribute('type', 'number');
-    $input.setAttribute('min', '0');
+    $input.setAttribute('min', '1');
     $label.appendChild($input);
     document.querySelector('#salarios').appendChild($label);
 }
@@ -32,6 +32,12 @@ document.querySelector('#btn-quitar').onclick = function () {
 document.querySelector('#btn-calcular').onclick = function () {
     let salarios = obtenerSalarios();
     if(salarios.length!=0){
+        for(let i=0; i<salarios.length; i++){
+            if(salarios[i]<=0){
+                alert('Los salarios deben ser mayores a 0');
+                return;
+            }
+        }
         document.querySelector('#mayor-salario-anual').textContent = `Mayor salario anual: $ ${obtenerMaximo(salarios)}`;
         document.querySelector('#menor-salario-anual').textContent = `Menor salario anual: $ ${obtenerMinimo(salarios)}`;
         document.querySelector('#promedio-salario-anual').textContent = `Salario anual promedio: $ ${obtenerPromedio(salarios)}`;
@@ -48,7 +54,10 @@ function obtenerSalarios() {
     let $salarios = document.querySelectorAll('#salarios input');
     let salarios = [];
     for (let i = 0; i < $salarios.length; i++) {
-        salarios.push(Number($salarios[i].value));
+        let salario = $salarios[i].value;
+        if(salario!=''){
+            salarios.push(Number(salario));
+        }
     }
     return salarios;
 }
