@@ -1,53 +1,78 @@
-let cantidadSalarios = 0;
-
 document.querySelector('#btn-agregar').onclick = function () {
-    crearSalario();
-    cantidadSalarios++;
-    document.querySelector('#resultados').setAttribute('style', 'display: none');
+    let cantidadSalarios = document.querySelectorAll('#salarios label').length;
+    crearSalario(cantidadSalarios);
+    ocultarResultados();
     return false;
 }
 
-function crearSalario() {
-    let $label = document.createElement('label');
-    $label.textContent = `Salario ${cantidadSalarios + 1}: `;
-    let idSalario = `salario-${cantidadSalarios + 1}`;
-    $label.setAttribute('for', idSalario);
-    let $input = document.createElement('input');
-    $input.setAttribute('id', idSalario);
-    $input.setAttribute('type', 'number');
-    $input.setAttribute('min', '1');
-    $label.appendChild($input);
+function crearSalario(numero) {
+    let $label = crearLabel(numero);
+    $label.appendChild(crearInput(numero));
     document.querySelector('#salarios').appendChild($label);
 }
 
+function crearLabel(numero) {
+    let $label = document.createElement('label');
+    $label.textContent = `Salario ${numero + 1}: `;
+    $label.setAttribute('for', `salario-${numero + 1}`);
+    return $label;
+}
+
+function crearInput(numero) {
+    let $input = document.createElement('input');
+    $input.setAttribute('id', `salario-${numero + 1}`);
+    $input.setAttribute('type', 'number');
+    $input.setAttribute('min', '1');
+    return $input;
+}
+
 document.querySelector('#btn-quitar').onclick = function () {
-    if(cantidadSalarios>0){
-        document.querySelector('#salarios').lastElementChild.remove();
-        cantidadSalarios--;        
-        document.querySelector('#resultados').setAttribute('style', 'display: none');
+    let cantidadSalarios = document.querySelectorAll('#salarios label').length;
+    if (cantidadSalarios > 0) {
+        borrarUltimoSalario();
+        ocultarResultados()
     }
     return false;
+}
+
+function borrarUltimoSalario() {
+    document.querySelector('#salarios').lastElementChild.remove();
 }
 
 document.querySelector('#btn-calcular').onclick = function () {
     let salarios = obtenerSalarios();
-    if(salarios.length!=0){
-        for(let i=0; i<salarios.length; i++){
-            if(salarios[i]<=0){
-                alert('Los salarios deben ser mayores a 0');
-                return;
-            }
-        }
-        document.querySelector('#mayor-salario-anual').textContent = `Mayor salario anual: $ ${obtenerMaximo(salarios)}`;
-        document.querySelector('#menor-salario-anual').textContent = `Menor salario anual: $ ${obtenerMinimo(salarios)}`;
-        document.querySelector('#promedio-salario-anual').textContent = `Salario anual promedio: $ ${obtenerPromedio(salarios)}`;
-        const MESES_EN_UN_ANIO = 12;
-        document.querySelector('#promedio-salario-mensual').textContent = `Salario mensual promedio: $ ${obtenerPromedio(salarios) / MESES_EN_UN_ANIO}`;
-        document.querySelector('#resultados').setAttribute('style', 'display: block');
-    }else{
+    if (salarios.length == 0) {
         alert('No hay salarios para calcular.')
+        return false;
+    }
+    if (validarSalarios(salarios)) {
+        mostrarSalarios(salarios);
+        mostrarResultados();
+    } else {
+        alert('Los salarios deben ser mayores a 0');
     }
     return false;
+}
+
+function validarSalarios(salarios) {
+    for (let i = 0; i < salarios.length; i++) {
+        if (salarios[i] <= 0) {
+            return false;
+        }
+    }
+    return true;
+}
+
+function mostrarSalario(id, salario) {
+    document.querySelector(id).textContent = salario.toString();
+}
+
+function mostrarSalarios(salarios) {
+    mostrarSalario('#mayor-salario-anual', obtenerMaximo(salarios));
+    mostrarSalario('#menor-salario-anual', obtenerMinimo(salarios));
+    mostrarSalario('#promedio-salario-anual', obtenerPromedio(salarios));
+    const MESES_EN_UN_ANIO = 12;
+    mostrarSalario('#promedio-salario-mensual', obtenerPromedio(salarios) / MESES_EN_UN_ANIO);
 }
 
 function obtenerSalarios() {
@@ -55,7 +80,7 @@ function obtenerSalarios() {
     let salarios = [];
     for (let i = 0; i < $salarios.length; i++) {
         let salario = $salarios[i].value;
-        if(salario!=''){
+        if (salario != '') {
             salarios.push(Number(salario));
         }
     }
@@ -90,3 +115,10 @@ function obtenerPromedio(numeros) {
     return Math.round(sumaTotal / numeros.length);
 }
 
+function ocultarResultados() {
+    document.querySelector('#resultados').setAttribute('style', 'display: none');
+}
+
+function mostrarResultados() {
+    document.querySelector('#resultados').setAttribute('style', 'display: block');
+}

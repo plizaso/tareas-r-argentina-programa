@@ -1,55 +1,80 @@
-document.querySelector('#btn-continuar').onclick = function(){
+document.querySelector('#btn-continuar').onclick = function () {
     let cantidadIntegrantes = Number(document.querySelector('#cantidad-integrantes').value);
-    if(cantidadIntegrantes<=0){
+    if (cantidadIntegrantes <= 0) {
         alert('La cantidad de integrantes debe ser un número positivo.');
         return false;
     }
     crearIntegrantes(cantidadIntegrantes);
-    document.querySelector('#integrantes').setAttribute('style', 'display: block');
-    document.querySelector('#btn-continuar').disabled = true;
-
+    mostrarIntegrantes();
+    deshabilitarBotonContinuar()
     return false;
 }
 
-function crearIntegrantes(cantidadIntegrantes){
+function crearIntegrantes(cantidadIntegrantes) {
     let $integrantes = document.querySelector('#integrantes');
-    for(let i=cantidadIntegrantes; i>0; i--){
+    for (let i = cantidadIntegrantes; i > 0; i--) {
         $integrantes.prepend(crearIntegrante(i));
     }
 }
 
-function crearIntegrante(numero){
-    let idIntegrante = `edad-integrante-${numero}`;
-    let $label = document.createElement('label');
-    $label.textContent = `Edad integrante ${numero}: `;
-    $label.setAttribute('for', idIntegrante);
-    let $input = document.createElement('input');
-    $input.setAttribute('id', idIntegrante);
-    $input.setAttribute('type', 'number');
-    $input.setAttribute('min', 1);
-    $label.appendChild($input);
-    
+function crearIntegrante(numero) {
+    let $label = crearLabel(numero);
+    $label.appendChild(crearInput(numero));
     return $label;
 }
 
-document.querySelector('#btn-calcular').onclick = function(){
+function crearLabel(numero) {
+    let $label = document.createElement('label');
+    $label.textContent = `Edad integrante ${numero}: `;
+    $label.setAttribute('for', `edad-integrante-${numero}`);
+    return $label;
+}
+
+function crearInput(numero) {
+    let $input = document.createElement('input');
+    $input.setAttribute('id', `edad-integrante-${numero}`);
+    $input.setAttribute('type', 'number');
+    $input.setAttribute('min', 1);
+    return $input;
+}
+
+document.querySelector('#btn-calcular').onclick = function () {
+    let edades = obtenerEdades();
+    if (validarEdades(edades)) {
+        mostrarEdades(edades);
+        mostrarResultados();
+    } else {
+        alert('Las edades deben ser mayores a 0.');
+    }
+    return false;
+}
+
+function obtenerEdades() {
     let $integrantes = document.querySelectorAll('#integrantes input');
     let edades = [];
-    for(let i=0; i<$integrantes.length; i++){
-        let edad = Number($integrantes[i].value);
-        if(edad<=0){
-            alert('Las edades deben ser mayores a 0.')
+    for (let i = 0; i < $integrantes.length; i++) {
+        edades.push(Number($integrantes[i].value));
+    }
+    return edades;
+}
+
+function validarEdades(edades) {
+    for (let i = 0; i < edades.length; i++) {
+        if (edades[i] <= 0) {
             return false;
         }
-        edades.push(edad);
     }
+    return true;
+}
 
-    document.querySelector('#mayor-edad').textContent = `Mayor edad: ${obtenerMaximo(edades)} años`;
-    document.querySelector('#menor-edad').textContent = `Menor edad: ${obtenerMinimo(edades)} años`;
-    document.querySelector('#edad-promedio').textContent = `Edad promedio: ${obtenerPromedio(edades)} años`;
-    document.querySelector('#resultados').setAttribute('style', 'display: block');
+function mostrarEdades(edades) {
+    mostrarEdad('#mayor-edad', obtenerMaximo(edades));
+    mostrarEdad('#menor-edad', obtenerMinimo(edades));
+    mostrarEdad('#edad-promedio', obtenerPromedio(edades));
+}
 
-    return false;
+function mostrarEdad(id, edad) {
+    document.querySelector(id).textContent = edad.toString();
 }
 
 function obtenerPromedio(numeros) {
@@ -80,20 +105,65 @@ function obtenerMaximo(numeros) {
     return max;
 }
 
-document.querySelector('#btn-reiniciar').onclick = function(){
-    document.querySelector('#mayor-edad').textContent = '';
-    document.querySelector('#menor-edad').textContent = '';
-    document.querySelector('#edad-promedio').textContent = '';
-    let $integrantes = document.querySelectorAll('#integrantes label');
-    for(let i=0; i<$integrantes.length; i++){
-        document.querySelector('#integrantes').removeChild($integrantes[i]);
-    }
-    document.querySelector('#integrantes').setAttribute('style', 'display: none');
-    document.querySelector('#resultados').setAttribute('style', 'display: none');
-    document.querySelector('#btn-continuar').disabled = false;
-    document.querySelector('#cantidad-integrantes').value = '';
-    
+document.querySelector('#btn-reiniciar').onclick = function () {
+    borrarResultados();
+    borrarIntegrantes();
+    habilitarBotonContinuar();
+    borrarCantidadIntegrantes();
     return false;
 }
 
+function borrarIntegrantes() {
+    let $integrantes = document.querySelectorAll('#integrantes label');
+    for (let i = 0; i < $integrantes.length; i++) {
+        document.querySelector('#integrantes').removeChild($integrantes[i]);
+    }
+    ocultarIntegrantes();
+}
 
+function borrarCantidadIntegrantes() {
+    document.querySelector('#cantidad-integrantes').value = '';
+}
+
+function mostrarIntegrantes() {
+    mostrarElemento('#integrantes');
+}
+
+function mostrarResultados() {
+    mostrarElemento('#resultados');
+}
+
+function ocultarIntegrantes() {
+    ocultarElemento('#integrantes');
+}
+
+function ocultarResultados() {
+    ocultarElemento('#resultados');
+}
+
+function mostrarElemento(id){
+    document.querySelector(id).setAttribute('style', 'display: block');
+}
+
+function ocultarElemento(id){
+    document.querySelector(id).setAttribute('style', 'display: none');
+}
+
+function deshabilitarBotonContinuar() {
+    document.querySelector('#btn-continuar').disabled = true;
+}
+
+function habilitarBotonContinuar() {
+    document.querySelector('#btn-continuar').disabled = false;
+}
+
+function borrarResultados() {
+    borrarEdad('#mayor-edad');
+    borrarEdad('#menor-edad');
+    borrarEdad('#edad-promedio');
+    ocultarResultados();
+}
+
+function borrarEdad(id) {
+    document.querySelector(id).textContent = '';
+}
