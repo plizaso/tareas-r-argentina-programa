@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clase 6 - Tarea 1</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <form>
+        <label for="cantidad-integrantes">
+            Ingresar la cantidad de integrantes del grupo familiar:
+            <input type="number" id="cantidad-integrantes" min="1">
+        </label>
+        <button id="btn-continuar">Continuar</button>
+        <hr>
+        <div id="integrantes" style="display: none;">
+
+            <button id="btn-calcular">Calcular</button>
+            <button id="btn-reiniciar">Reiniciar</button>
+        </div>
+        <div id="resultados" style="display: none;">
+            <hr>
+            <div>Mayor edad: <span id="mayor-edad"></span> años</div>
+            <div>Menor edad: <span id="menor-edad"></span> años</div>
+            <div>Edad promedio: <span id="edad-promedio"></span> años</div>
+        </div>
+
+
+
+    </form>
+
+    <script type="text/javascript" src="js/tarea-1.js"></script>
+</body>
+</html>
