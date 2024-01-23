@@ -11,15 +11,16 @@
         <label for="cantidad-integrantes">
             Ingresar la cantidad de integrantes del grupo familiar:
             <input type="number" id="cantidad-integrantes" min="1">
+            <span class="error-text"></span>
         </label>
         <button id="btn-continuar">Continuar</button>
         <hr>
-        <div id="integrantes" style="display: none;">
+        <div id="integrantes" class="oculto">
 
             <button id="btn-calcular">Calcular</button>
             <button id="btn-reiniciar">Reiniciar</button>
         </div>
-        <div id="resultados" style="display: none;">
+        <div id="resultados" class="oculto">
             <hr>
             <div>Mayor edad: <span id="mayor-edad"></span> años</div>
             <div>Menor edad: <span id="menor-edad"></span> años</div>
@@ -31,5 +32,6 @@
     </form>
 
     <script type="text/javascript" src="js/tarea-1.js"></script>
+    <script type="text/javascript" src="js/pruebas.js"></script>
 </body>
 </html>

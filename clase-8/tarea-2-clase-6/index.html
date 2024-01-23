@@ -11,9 +11,11 @@
         <button id="btn-agregar">Agregar</button>
         <button id="btn-quitar">Quitar</button>
         <button id="btn-calcular">Calcular</button>
-        <div id="salarios"></div>
+        <div id="salarios">
+            <div id="error-salarios" class="error-text oculto">*No hay salarios para calcular</div>
+        </div>
 
-        <div id="resultados" style="display: none;">
+        <div id="resultados" class="oculto">
             <hr>
             <div>Mayor salario anual: $ <span id="mayor-salario-anual"></span></div>
             <div>Menor salario anual: $ <span id="menor-salario-anual"></span></div>
@@ -23,5 +25,6 @@
     </form>
 
     <script type="text/javascript" src="js/tarea-2.js"></script>
+    <script type="text/javascript" src="js/pruebas.js"></script>
 </body>
 </html>
