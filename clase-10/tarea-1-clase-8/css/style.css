@@ -1,0 +1,16 @@
+label{
+    display: block;
+    margin: 5px 0px;
+}
+
+.error{
+    border: 2px solid red;
+}
+
+.error-text{
+    color: red;
+}
+
+.oculto{
+    display: none;
+}
